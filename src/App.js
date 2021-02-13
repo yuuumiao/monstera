@@ -1,16 +1,34 @@
 import './App.css';
 import Header from './Header'
 import Home from './Home'
+import Checkout from './Checkout'
+
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 function App() {
   return (
 
     //BEM
+    //The homepage with just the slash will remain at the bottom 
+
+    <Router>
     <div className="app">
-      <Header />
-      <Home />
+    <Header />
+
+
+      <Switch>
+        <Route path="/checkout">
+            <Checkout />
+      </Route>
+
+      <Route path="/"> 
+            <Home />
+      </Route>
+
+      </Switch>
 
     </div>
+    </Router>
   );
 }
 
