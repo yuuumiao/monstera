@@ -9,7 +9,6 @@ import CheckoutProduct from './CheckoutProduct'
 function Checkout() {
 
     const [{basket}, dispatch] = useStateValue();
-    //console.log({basket})
 
     return (
 
