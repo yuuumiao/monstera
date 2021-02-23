@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
 import './Login.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth } from "./firebase"
 
 function Login() {
+
+    const history = useHistory()
+    //this allows us programmatically change the URL
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const signin = (event) => {
         event.preventDefault()
+        auth.signInWithEmailAndPassword(email, password)
+            .then((auth) => history.push("/"))
+            .catch((error) => alert(error.message))
 
     }
 
@@ -18,6 +24,7 @@ function Login() {
         auth.createUserWithEmailAndPassword(email, password)
             .then((auth) => {
                 console.log(auth)
+                if(auth) history.push("/")
             })
             .catch((error) => alert(error.message))
     }
