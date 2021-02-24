@@ -26,8 +26,6 @@ function Header() {
             <div className="header__search">
                 <input className="header__searchInput" type="text"/>
                 <SearchIcon className="header_searchIcon"/>
-                
-
             </div>
 
 
@@ -35,7 +33,7 @@ function Header() {
 
                 <Link to={!user && "/login"}> 
                     <div onClick={handleAuthentication} className="header__option">
-                        <span className="header__optionLineOne">Hello Guest</span>
+                        <span className="header__optionLineOne">Hello {user ? user.email : 'Guest'}</span>
                         <span className="header__optionLineTwo">{user ? 'Sign Out' : 'Sign In'}</span>
                     </div>
                 </Link>
