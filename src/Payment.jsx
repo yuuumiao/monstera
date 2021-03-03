@@ -9,7 +9,6 @@ import { getBasketTotal } from './reducer'
 import axios from 'axios'
 
 
-
 const Payment = () => {
 
     const [{ basket, user }, dispatch] = useStateValue()
@@ -30,13 +29,16 @@ const Payment = () => {
         const getClientSecret = async () => {
             const response = await axios({
                 method: 'post',
-                url: `/payment/create?total=${getBasketTotal(basket)*100}`
+                url: `/payments/create?total=${getBasketTotal(basket)*100}`
                 //stripe expects the total in a currencies subunits (cents); so we time 100
             })
             setClientSecret(response.data.clientSecret)
         }
         getClientSecret() //call the async function 
     }, [basket])
+
+
+    console.log("The secret is >>>", clientSecret)
 
     const handleSubmit = async (event) => {
         event.preventDafault();
@@ -54,8 +56,6 @@ const Payment = () => {
             history.replace('/orders')
             //swope the page to /orders
         })
-
-
     }
 
     const handleChange = (event) => {

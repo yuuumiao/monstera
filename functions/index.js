@@ -19,11 +19,28 @@ const stripe = require("stripe")('sk_test_51IOWa0LRu5j4rVh2H6CBpA6iz4vIzThzCsYRq
 const app = express()
 
 // - Middlewares 
-app.use(cors({ origin: true}))
+app.use(cors({ origin: true }))
 app.use(express.json())
 
 // - API routes 
 app.get('/', (request, response) => response.status(200).send('Hello world'))
 
+app.post('/payments/create', async (request, response) => {
+    console.log("here")
+    const total = request.query.total;
+    console.log("total is >>>>", total)
+    const paymentIntent = await stripe.paymentIntent.create({
+        amount: total,
+        currency: "eur",
+    })
+    response.status(201).send({
+        clientSecret: paymentIntent.client_secret,
+    })
+})
+
+
 // - Listen command
 exports.api = functions.https.onRequest(app)
+
+//host at
+//http://localhost:5001/monstera-shopping/us-central1/api
