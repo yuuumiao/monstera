@@ -19,7 +19,17 @@ const stripe = require("stripe")('sk_test_51IOWa0LRu5j4rVh2H6CBpA6iz4vIzThzCsYRq
 const app = express()
 
 // - Middlewares 
-app.use(cors({ origin: true }))
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", req.header('Origin'));
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+  });
+    
 app.use(express.json())
 
 // - API routes 
@@ -29,7 +39,7 @@ app.post('/payments/create', async (request, response) => {
     console.log("here")
     const total = request.query.total;
     console.log("total is >>>>", total)
-    const paymentIntent = await stripe.paymentIntent.create({
+    const paymentIntent = await stripe.paymentIntents.create({
         amount: total,
         currency: "eur",
     })
