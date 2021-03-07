@@ -10,7 +10,8 @@ const functions = require("firebase-functions");
 
 const express = require("express")
 const cors = require("cors")
-const stripe = require("stripe")('sk_test_51IOWa0LRu5j4rVh2H6CBpA6iz4vIzThzCsYRqHXktEd0B582ML5GqtFddOyh39tblmSbTpKy1WBybfGHDqrTYgQt00zuUIEBLQ')
+const stripe = require("stripe")
+('sk_test_51IOWa0LRu5j4rVh2H6CBpA6iz4vIzThzCsYRqHXktEd0B582ML5GqtFddOyh39tblmSbTpKy1WBybfGHDqrTYgQt00zuUIEBLQ')
 
 
 // API
@@ -19,16 +20,23 @@ const stripe = require("stripe")('sk_test_51IOWa0LRu5j4rVh2H6CBpA6iz4vIzThzCsYRq
 const app = express()
 
 // - Middlewares 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", req.header('Origin'));
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    next();
-  });
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", req.header('Origin'));
+//     res.header("Access-Control-Allow-Credentials", true);
+//     res.header(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content-Type, Accept"
+//     );
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+//     next();
+//   });
+
+// app.use(cors({ origin: true }))
+
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000/','https://monstera-shopping.web.app/']}
+  ))
     
 app.use(express.json())
 
@@ -41,7 +49,7 @@ app.post('/payments/create', async (request, response) => {
     console.log("total is >>>>", total)
     const paymentIntent = await stripe.paymentIntents.create({
         amount: total,
-        currency: "eur",
+        currency: "usd",
     })
     response.status(201).send({
         clientSecret: paymentIntent.client_secret,
