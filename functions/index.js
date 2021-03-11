@@ -60,7 +60,7 @@ app.post('/payments/create', async (request, response) => {
 
 
 // - Listen command
-exports.api = functions.https.onRequest(app);
+exports.api = functions.region('europe-west2').https.onRequest(app);
 
 //host at
-//http://localhost:5001/monstera-shopping/us-central1/api
+//http://localhost:5001/monstera-shopping/europe-west2/api
